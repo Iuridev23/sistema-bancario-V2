@@ -1,10 +1,36 @@
 def deposito(saldo, valor, extrato):
     if(valor >= 0):
         saldo += valor
-        extrato += f"Depósito: +R$ {valor:.2f} Saldo: R$ {saldo:.2f}\n"
+        extrato += f"Depósito: +R$ {valor:.2f} \nSaldo: R$ {saldo:.2f}\n"
         return saldo, extrato
     else:
-        print("Valor Inválido!")    
+        print("Valor Inválido!")
+
+def saque(saldo=0, valor=0, extrato="", numero_saques=0, limite_saques=3):   
+        print("-----------Saque-----------")
+        
+        saques_excedidos = numero_saques >= limite_saques
+
+        if saques_excedidos:
+            print("Número diário de saques excedido!")
+            return saldo, extrato, numero_saques            
+        else:     
+            saldo_excedido = valor > saldo
+            limite_excedido = valor > 500
+            
+            if limite_excedido:            
+                print("Valor do saque excedeu o limite!")
+                return saldo, extrato, numero_saques
+            elif saldo_excedido:
+                print("Saldo Insuficiente!")
+                return saldo, extrato, numero_saques 
+            elif valor > 0:
+                saldo -= valor
+                extrato += f"Saque: -R$ {valor:.2f} \nSaldo: R$ {saldo:.2f}\n"
+                numero_saques += 1
+                return saldo, extrato, numero_saques
+            else:
+                print("Valor Inválido!")
 
 
 menu = """
@@ -20,41 +46,25 @@ saldo = 0
 # LIMITE = 500
 extrato = ""
 # LIMITE_SAQUES = 3
-# contator_saque = 0
+contator_saque = 0
 
 while True:
     opcao = input(menu)
 
     if opcao == "1":
         print("-----------Deposito-----------")
-        valores = (deposito(saldo, float(input("Digite o valor a ser depositado? ")), extrato))
-        saldo = valores[0]
-        extrato = valores[1]                
+        valores_deposito = (deposito(saldo, float(input("Digite o valor a ser depositado? ")), extrato))
+        saldo = valores_deposito[0]
+        extrato = valores_deposito[1]                
        
 
-#     elif opcao == "2":
-#         print("-----------Saque-----------")
-        
-#         saques_excedidos = contator_saque >= LIMITE_SAQUES
-
-#         if saques_excedidos:
-#             print("Número diário de saques excedido!")            
-#         else:
-#             valor_saque = float(input("Qual o valor a ser sacado? "))
-
-#             saldo_excedido = valor_saque > saldo
-#             limite_excedido = valor_saque > LIMITE
-            
-#             if limite_excedido:            
-#                 print("Valor do saque excedeu o limite!")
-#             elif saldo_excedido:
-#                 print("Saldo Insuficiente!") 
-#             elif valor_saque > 0:
-#                 saldo -= valor_saque
-#                 extrato += f"Saque: -R$ {valor_saque:.2f} \nSaldo: R$ {saldo:.2f}\n"
-#                 contator_saque += 1
-#             else:
-#                 print("Valor Inválido!")
+    elif opcao == "2":
+        print("-----------Saque-----------")        
+        valores_saque = (saque(saldo, float(input("Qual o valor a ser sacado? ")), extrato, contator_saque))
+        saldo = valores_saque[0]
+        extrato = valores_saque[1]
+        contator_saque = valores_saque[2]
+        print(f"{saldo}, {extrato}, {contator_saque}") 
             
 #     elif opcao == "3":
 #         if not extrato:
