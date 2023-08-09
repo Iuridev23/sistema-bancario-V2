@@ -41,20 +41,20 @@ def imprimirExtrato(saldo, extrato=""):
         print(f"----------- \nSaldo Total: R$ {saldo:.2f}")
 
 def criar_usuario(usuarios):
-    cpf = input("Informe o CPF (somente número): ")
+    cpf = input("Informe o CPF: ")
     usuario = filtrar_usuario(cpf, usuarios)
 
     if usuario:
-        print("\nJá existe usuário com esse CPF!")
+        print("\nCPF já cadastrado!")
         return
 
-    nome = input("Informe o nome completo: ")
-    data_nascimento = input("Informe a data de nascimento (dd-mm-aaaa): ")
-    endereco = input("Informe o endereço (logradouro, nro - bairro - cidade/sigla estado): ")
+    nome = input("Informe seu nome: ")
+    data_nascimento = input("Informe a data de nascimento: ")
+    endereco = input("Informe o endereço: ")
 
     usuarios.append({"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "endereco": endereco})
 
-    print("=== Usuário criado com sucesso! ===")
+    print("Usuário criado com sucesso!")
 
 
 def filtrar_usuario(cpf, usuarios):
@@ -63,14 +63,14 @@ def filtrar_usuario(cpf, usuarios):
 
 
 def criar_conta(agencia, numero_conta, usuarios):
-    cpf = input("Informe o CPF do usuário: ")
+    cpf = input("Informe o CPF: ")
     usuario = filtrar_usuario(cpf, usuarios)
 
     if usuario:
-        print("\n=== Conta criada com sucesso! ===")
+        print("\nConta criada com sucesso!")
         return {"agencia": agencia, "numero_conta": numero_conta, "usuario": usuario}
 
-    print("\nUsuário não encontrado, fluxo de criação de conta encerrado!")
+    print("\nUsuário não encontrado!")
 
 
 def listar_contas(contas):
